@@ -1,19 +1,5 @@
 import mechanize
-from BeautifulSoup import BeautifulSoup
-
-
-class SanitizeHandler(mechanize.BaseHandler):
-    def __init__(self):
-        pass
-
-    def http_response(self, request, response):
-        if not hasattr(response, "seek"):
-            response = mechanize.response_seek_wrapper(response)
-        # if    HTML   used   get   it though  a    robust  Parser    like  BeautifulSoup
-        if response.info().dict.has_key('content-type') and ('html' in response.info().dict['content-type']):
-            soup = BeautifulSoup(response.get_data())
-            response.set_data(soup.prettify())
-        return response
+from SanitizeHandler import SanitizeHandler
 
 
 try:

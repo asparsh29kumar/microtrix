@@ -1,23 +1,8 @@
 import time
 import sys
 import mechanize
-from BeautifulSoup import BeautifulSoup
 import ssl
-
-
-class SanitizeHandler(mechanize.BaseHandler):
-    def __init__(self):
-        pass
-
-    def http_response(self, request, httpResponse):
-        if not hasattr(httpResponse, "seek"):
-            httpResponse = mechanize.response_seek_wrapper(httpResponse)
-        # If HTML used, get it though a robust Parser like BeautifulSoup
-        if 'content-type' in httpResponse.info().dict and ('html' in httpResponse.info().dict['content-type']):
-            soup = BeautifulSoup(httpResponse.get_data())
-            httpResponse.set_data(soup.prettify())
-        return httpResponse
-
+from SanitizeHandler import SanitizeHandler
 
 try:
     _create_unverified_https_context = ssl._create_unverified_context
